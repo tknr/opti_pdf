@@ -28,6 +28,7 @@ do
 
 	for FILENAME in `find "${TARGET_DIR}" -iname "*.pdf" | sort -h`
 	do
+		echo "${FILENAME}"
 		serial=`uuidgen` || continue
 		gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=/tmp/${serial}.pdf "${FILENAME}" || continue
 		rm "${FILENAME}" || continue
