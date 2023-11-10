@@ -31,7 +31,6 @@ do
 		echo "${FILENAME}"
 		serial=`uuidgen` || continue
 		gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=/tmp/${serial}.pdf "${FILENAME}" || continue
-		rm "${FILENAME}" || continue
-		mv /tmp/${serial}.pdf "${FILENAME}" || continue
+		/bin/cp -vf /tmp/${serial}.pdf "${FILENAME}" || continue
 	done
 done
