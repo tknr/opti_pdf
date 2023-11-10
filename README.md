@@ -6,3 +6,5 @@ PDF をコマンドラインから圧縮する - Qiita https://qiita.com/peaceir
 
 LinuxでPDFを圧縮する方法 https://www.adobe.com/jp/acrobat/hub/how-to/how-to-compress-pdf-in-linux.html
 
+pdfのファイルサイズを小さくする方法 - pyopyopyo - Linuxとかプログラミングの覚え書き - https://pyopyopyo.hatenablog.com/entry/20160712/p1
+
