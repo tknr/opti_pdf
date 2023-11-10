@@ -6,32 +6,33 @@ argv=("$@")
 CMDNAME=`basename $0`
 
 if [ $# -eq 0 ]; then
-	echo "Usage : ${CMDNAME} [dirname]"
-	exit 1
+        echo "Usage : ${CMDNAME} [dirname]"
+        exit 1
 fi
 
 if !(type "gs" > /dev/null 2>&1); then
-	echo "requires ghostscript."
-	exit 1
+        echo "requires ghostscript."
+        exit 1
 fi
 
 ## https://qiita.com/hit/items/e95298f689a1ee70ae4a
 _pcnt=`pgrep -fo ${CMDNAME} | wc -l`
 if [ ${_pcnt} -gt 1 ]; then
-	echo "This script has been running now. proc : ${_pcnt}"
-	exit 1
+        echo "This script has been running now. proc : ${_pcnt}"
+        exit 1
 fi
 
 for ARG_DIR in ${argv}
 do
-	TARGET_DIR=`readlink -f ${ARG_DIR}`
+        TARGET_DIR=`readlink -f ${ARG_DIR}`
 
-	for FILENAME in `find "${TARGET_DIR}" -iname "*.pdf" | sort -h`
-	do
-		ls -lh "${FILENAME}"
-		serial=`uuidgen` || continue
-		gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=/tmp/${serial}.pdf "${FILENAME}" || continue
+        for FILENAME in `find "${TARGET_DIR}" -iname "*.pdf" | sort -h`
+        do
+                ls -lh "${FILENAME}"
+                serial=`uuidgen` || continue
+                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dDownsampleColorImages=true -dColorImageResolution=300 -dNOPAUSE -dBATCH -sOutputFile=/tmp/${serial}.pdf "${FILENAME}" || continue
                 ls -lh /tmp/${serial}.pdf || continue
-		/bin/cp -vf /tmp/${serial}.pdf "${FILENAME}" || continue
-	done
+                /bin/cp -vf /tmp/${serial}.pdf "${FILENAME}" || continue
+                /bin/rm -vf /tmp/${serial}.pdf || continue
+        done
 done
